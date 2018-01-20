@@ -1,5 +1,3 @@
-import { String } from 'shelljs'
-
 interface Record {
   value: any
   expire: number
@@ -26,8 +24,7 @@ export default class Cache {
       throw new Error('Cache timeout must be a positive number')
     }
     if (this.size === 10000) {
-      this.cache = Object.create(null)
-      this.size = 0
+      this.clear()
     }
     const record: Record = {
       value: value,
@@ -97,13 +94,13 @@ export default class Cache {
   }
 
   loadJson = (jsonStr: string, filters: Array<string>): void => {
-    const data: JSON = JSON.parse(jsonStr)
+    const data: any = JSON.parse(jsonStr)
     const time: number = Date.now()
     for (let key in data) {
       if (!data.hasOwnProperty(key) || filters.includes(key)) {
         continue
       }
-      const record: Record = this.cache[key]
+      const record: Record = data[key]
       if (record.expire < time) {
         continue
       }

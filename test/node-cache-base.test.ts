@@ -19,14 +19,21 @@ describe('base test', () => {
   })
 })
 
-describe('total test', () => {
+describe('extend test', () => {
   const cache = new CacheClass()
+  const keys = ['a', 'b', 'c']
+  const value = ['2009', '2010', '2011']
+  keys.forEach((keys, index) => {
+    cache.set(keys, value[index], 10000)
+  })
   it('get size test', () => {
-    const keys = ['a', 'b', 'c']
-    const value = ['2009', '2010', '2011']
-    keys.forEach((keys, index) => {
-      cache.set(keys, value[index], 10000)
-    })
     expect(cache.getSize()).toBe(3)
+  })
+
+  it('set && out json test', () => {
+    const jsonstr = cache.outputJson()
+    cache.clear()
+    cache.loadJson(jsonstr, [])
+    expect(cache.outputJson()).toBe(jsonstr)
   })
 })
