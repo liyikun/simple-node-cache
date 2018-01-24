@@ -9,12 +9,14 @@ export default class Cache {
   cache: any
   hitCount: number
   missCount: number
-  constructor() {
+  maxSize: number
+  constructor(maxSize = 10000) {
     this.size = 0
     this._debug = false
     this.cache = Object.create(null)
     this.hitCount = 0
     this.missCount = 0
+    this.maxSize = maxSize
   }
   set = (key: string, value: any, time: number): any => {
     if (
@@ -23,7 +25,7 @@ export default class Cache {
     ) {
       throw new Error('Cache timeout must be a positive number')
     }
-    if (this.size === 10000) {
+    if (this.size === this.maxSize) {
       this.clear()
     }
     const record: Record = {

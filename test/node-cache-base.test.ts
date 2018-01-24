@@ -20,7 +20,7 @@ describe('base test', () => {
 })
 
 describe('extend test', () => {
-  const cache = new CacheClass()
+  let cache = new CacheClass()
   const keys = ['a', 'b', 'c']
   const value = ['2009', '2010', '2011']
   keys.forEach((keys, index) => {
@@ -35,5 +35,15 @@ describe('extend test', () => {
     cache.clear()
     cache.loadJson(jsonstr, [])
     expect(cache.outputJson()).toBe(jsonstr)
+  })
+})
+
+describe('size test', () => {
+  const cache = new CacheClass(10)
+  it('set Max size', () => {
+    for (let i = 0; i < 11; i++) {
+      cache.set(`key${i}`, Math.ceil(Math.random() * i), 10000)
+    }
+    expect(cache.getSize()).toBe(1)
   })
 })
