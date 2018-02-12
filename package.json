@@ -1,7 +1,7 @@
 {
   "name": "node-cache-base",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "simple node cache",
   "keywords": [],
   "main": "dist/node-cache-base.umd.js",
   "module": "dist/node-cache-base.es5.js",
