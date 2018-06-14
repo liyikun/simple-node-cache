@@ -71,7 +71,10 @@ var Cache = /** @class */ (function () {
             for (var key in _this.cache) {
                 var record = _this.cache[key];
                 if (record) {
-                    result[key] = record;
+                    result[key] = {
+                        value: record.value,
+                        expire: record.expire || null,
+                    };
                 }
             }
             return JSON.stringify(result);
@@ -84,10 +87,11 @@ var Cache = /** @class */ (function () {
                     continue;
                 }
                 var record = data[key];
-                if (record.expire < time) {
+                var remaining = record.expire - time;
+                if (remaining <= 0) {
                     continue;
                 }
-                _this.cache[key] = record;
+                _this.set(key, record.value, remaining);
             }
         };
         this.size = 0;

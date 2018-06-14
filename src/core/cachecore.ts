@@ -89,7 +89,10 @@ export default class Cache {
     for (let key in this.cache) {
       const record: Record = this.cache[key]
       if (record) {
-        result[key] = record
+        result[key] = {
+          value: record.value,
+          expire: record.expire || null
+        }
       }
     }
     return JSON.stringify(result)
@@ -103,10 +106,11 @@ export default class Cache {
         continue
       }
       const record: Record = data[key]
-      if (record.expire < time) {
+      const remaining: number = record.expire - time
+      if (remaining <= 0) {
         continue
       }
-      this.cache[key] = record
+      this.set(key, record.value, remaining)
     }
   }
 }
