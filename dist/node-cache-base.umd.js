@@ -77,7 +77,7 @@ var Cache = /** @class */ (function () {
                 if (record) {
                     result[key] = {
                         value: record.value,
-                        expire: record.expire || null,
+                        expire: record.expire || null
                     };
                 }
             }
@@ -91,8 +91,10 @@ var Cache = /** @class */ (function () {
                     continue;
                 }
                 var record = data[key];
+                var expire = record.expire;
                 var remaining = record.expire - time;
-                if (remaining <= 0) {
+                var expireisNull = (!expire && typeof expire != "undefined" && expire != 0);
+                if (remaining <= 0 || expireisNull) {
                     continue;
                 }
                 _this.set(key, record.value, remaining);

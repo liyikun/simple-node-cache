@@ -106,8 +106,11 @@ export default class Cache {
         continue
       }
       const record: Record = data[key]
+      const expire: number = record.expire
       const remaining: number = record.expire - time
-      if (remaining <= 0) {
+      const expireisNull =
+        !expire && typeof expire != 'undefined' && expire != 0
+      if (remaining <= 0 || expireisNull) {
         continue
       }
       this.set(key, record.value, remaining)
