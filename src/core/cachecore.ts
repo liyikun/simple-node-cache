@@ -1,7 +1,4 @@
-interface Record {
-  value: any
-  expire: number
-}
+import { Data } from "./interface";
 
 export default class Cache {
   size: number
@@ -28,7 +25,7 @@ export default class Cache {
     if (this.size === this.maxSize) {
       this.clear()
     }
-    const record: Record = {
+    const record: Data = {
       value: value,
       expire: time + Date.now()
     }
@@ -39,7 +36,7 @@ export default class Cache {
 
   del = (key: string): boolean => {
     let isDelete = true
-    const oldRecord: Record = this.cache[key]
+    const oldRecord: Data = this.cache[key]
     if (oldRecord) {
       isDelete = true
     } else {
@@ -63,7 +60,7 @@ export default class Cache {
   }
 
   get = (key: string): any => {
-    const record: Record = this.cache[key]
+    const record: Data = this.cache[key]
     if (typeof record != 'undefined') {
       if (isNaN(record.expire) || record.expire >= Date.now()) {
         if (this._debug) this.hitCount++
@@ -87,7 +84,7 @@ export default class Cache {
   outputJson = (): string => {
     const result: any = Object.create(null)
     for (let key in this.cache) {
-      const record: Record = this.cache[key]
+      const record: Data = this.cache[key]
       if (record) {
         result[key] = {
           value: record.value,
@@ -105,7 +102,7 @@ export default class Cache {
       if (!data.hasOwnProperty(key) || filters.includes(key)) {
         continue
       }
-      const record: Record = data[key]
+      const record: Data = data[key]
       const expire: number = record.expire
       const remaining: number = record.expire - time
       const expireisNull =

@@ -93,7 +93,7 @@ var Cache = /** @class */ (function () {
                 var record = data[key];
                 var expire = record.expire;
                 var remaining = record.expire - time;
-                var expireisNull = (!expire && typeof expire != "undefined" && expire != 0);
+                var expireisNull = !expire && typeof expire != 'undefined' && expire != 0;
                 if (remaining <= 0 || expireisNull) {
                     continue;
                 }
